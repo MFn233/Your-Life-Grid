@@ -1,0 +1,168 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+/* Screen-reader-only text: still announced, never seen. */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+body {
+    background: #f5f7fb;
+    font-family: system-ui, -apple-system, 'Segoe UI', 'Roboto', 'Noto Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    transition: background 0.3s;
+}
+
+.container {
+    max-width: 1100px;
+    width: 100%;
+    background: white;
+    border-radius: 32px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.03), 0 0 0 1px rgba(0, 0, 0, 0.01);
+    padding: 2rem 2rem 2.5rem;
+    transition: all 0.2s ease;
+    text-align: center;
+    position: relative;
+    animation: fadeSlideUp 0.48s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+}
+
+@keyframes fadeSlideUp {
+    0% { opacity: 0; transform: translateY(24px) scale(0.98); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.container.exit-animation {
+    animation: fadeSlideDown 0.35s ease-in forwards;
+}
+
+@keyframes fadeSlideDown {
+    0% { opacity: 1; transform: translateY(0) scale(1); pointer-events: none; }
+    100% { opacity: 0; transform: translateY(30px) scale(0.96); pointer-events: none; }
+}
+
+/* 圆形图标按钮基础样式 */
+.icon-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #eef2f5;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+    position: absolute;
+    top: 20px;
+}
+.icon-btn:hover {
+    background: #e2e8ed;
+    transform: translateY(-1px);
+}
+
+.lang-switch {
+    right: 24px;
+}
+
+/* 语言下拉菜单 */
+.lang-menu {
+    position: absolute;
+    top: 60px;
+    right: 24px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    padding: 8px 8px;
+    z-index: 20;
+    min-width: 100px;
+    display: flex;
+    flex-direction: column;
+}
+.lang-menu button {
+    background: none;
+    border: none;
+    border-radius: 5px;
+    padding: 4px 8px;
+    text-align: left;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-family: inherit;
+    color: #1a2c3e;
+    transition: all .4s ease;
+}
+.lang-menu button:hover {
+    background: #f0f2f5;
+}
+.lang-menu button.is-active {
+    background: #eef2f5;
+    font-weight: 600;
+    color: #2c5f6e;
+}
+.lang-menu button:focus-visible {
+    outline: 2px solid #2c5f6e;
+    outline-offset: -1px;
+}
+
+.btn {
+    border: none;
+    background: #f0f2f5;
+    padding: 0.7rem 1.8rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: 60px;
+    cursor: pointer;
+    transition: 0.2s;
+    font-family: inherit;
+    color: #1f3a4b;
+    letter-spacing: 0.3px;
+}
+.btn-primary {
+    background-color: #2c5f6e;
+    color: white;
+}
+.btn-primary:hover {
+    background-color: #1e4652;
+    transform: translateY(-1px);
+}
+.btn-secondary {
+    background-color: #eef2f5;
+    color: #4b6a7c;
+    border: 1px solid #e2e8ed;
+}
+.btn-secondary:hover {
+    background-color: #e4e9ef;
+}
+
+.divider-light {
+    width: 48px;
+    height: 2px;
+    background: #e2e8f0;
+    margin: 1rem auto 0.2rem;
+    border-radius: 2px;
+}
+
+@media print {
+    .icon-btn, .lang-menu {
+        display: none;
+    }
+}

@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Your Life Grid · 900 Months</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* 屏幕样式 */
+        body {
+            background: #f0f2f5;
+            font-family: system-ui, -apple-system, 'Segoe UI', 'Roboto', 'Noto Sans', sans-serif;
+            padding: 24px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+            padding: 24px 20px 32px 20px;
+            animation: fadeSlideUp 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+            position: relative;
+        }
+
+        @keyframes fadeSlideUp {
+            0% {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 语言切换按钮样式 */
+        .lang-switch {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            background: #eef2f5;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            color: #2c5f6e;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+        .lang-switch:hover {
+            background: #e2e8ed;
+            transform: translateY(-1px);
+        }
+
+        .title-section {
+            text-align: center;
+            margin-bottom: 24px;
+            margin-top: 8px;
+        }
+
+        .title {
+            display: block;
+            font-size: 2.2rem;
+            font-weight: 500;
+            letter-spacing: -0.3px;
+            color: #1e2f3a;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: #6b7c8a;
+            margin-top: 6px;
+            display: block;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(30, 1fr);
+            border-top: 1px solid #b9c2ca;
+            border-left: 1px solid #b9c2ca;
+            margin: 16px 0 20px 0;
+            background: white;
+        }
+
+        .cell {
+            aspect-ratio: 1 / 1;
+            border-right: 1px solid #d4dce2;
+            border-bottom: 1px solid #d4dce2;
+            transition: background 0.1s ease, transform 0.1s ease;
+            background-color: white;
+            cursor: pointer;
+        }
+
+        .cell.lived {
+            background-color: #d9e0e5;
+        }
+
+        .cell:hover {
+            background-color: #eef2f5;
+            transform: scale(0.98);
+        }
+
+        .message-box {
+            margin-top: 8px;
+            line-height: 1.55;
+            color: #2c3e40;
+            font-size: 0.95rem;
+        }
+
+        .message-box p {
+            margin-bottom: 12px;
+        }
+
+        .message-box strong {
+            color: #2c5f6e;
+        }
+
+        .gray-quote {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid #e2e8ed;
+            font-size: 0.9rem;
+            color: #5c6e7a;
+        }
+
+        .personal-note {
+            margin-top: 12px;
+            font-style: italic;
+            background: #fef9e6;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #a0763c;
+            text-align: center;
+        }
+
+        .footer-note {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #9aaeb9;
+            margin-top: 20px;
+            border-top: 1px solid #eef2f5;
+            padding-top: 12px;
+        }
+
+        .author-info {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #b9c3cc;
+            margin-top: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .watermark {
+            display: none;
+        }
+
+        .screen-tools {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .screen-btn {
+            background: #eef2f5;
+            border: none;
+            padding: 6px 18px;
+            border-radius: 60px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            color: #2c5f6e;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+
+        .screen-btn:hover {
+            background: #e2e8ed;
+            transform: translateY(-1px);
+        }
+
+        .print-btn {
+            background: #2c5f6e;
+            color: white;
+            border: none;
+            padding: 8px 24px;
+            border-radius: 60px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .print-btn:hover {
+            background: #1e4652;
+            transform: translateY(-1px);
+        }
+
+        .print-clicked {
+            animation: pulse 0.3s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); background-color: #1e4652; }
+            100% { transform: scale(1); }
+        }
+
+        /* ========== 打印样式 ========== */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+
+            .container {
+                max-width: 100%;
+                margin: 0;
+                padding: 0.2in 0.15in 0.1in 0.15in;
+                box-shadow: none;
+                border-radius: 0;
+                animation: none;
+                position: relative;
+            }
+
+            .lang-switch, .screen-tools, .footer-note, .author-info {
+                display: none;
+            }
+
+            .watermark {
+                display: block;
+                position: absolute;
+                bottom: 8px;
+                right: 12px;
+                font-size: 11px;
+                color: rgba(100, 100, 120, 0.2);
+                font-family: monospace;
+                transform: rotate(-12deg);
+                pointer-events: none;
+                z-index: 999;
+                white-space: nowrap;
+                font-weight: normal;
+                letter-spacing: 1px;
+            }
+
+            .title-section {
+                margin-bottom: 16px !important;
+            }
+
+            .cell.lived {
+                background-color: #d9e0e5 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .cell {
+                border-right: 0.5px solid #aaa;
+                border-bottom: 0.5px solid #aaa;
+            }
+
+            .grid-container {
+                border-top: 0.5px solid #aaa;
+                border-left: 0.5px solid #aaa;
+                margin: 8px 0 12px 0;
+            }
+
+            .message-box {
+                font-size: 9.5pt;
+                line-height: 1.4;
+                margin-top: 4px;
+            }
+
+            .message-box p {
+                margin-bottom: 6px;
+            }
+
+            .gray-quote {
+                font-size: 9pt;
+                margin-top: 4px;
+                padding-top: 4px;
+            }
+
+            .personal-note {
+                font-size: 9pt;
+                background: none;
+                padding: 4px 0;
+                border: none;
+                color: #555;
+            }
+
+            .title {
+                font-size: 20pt;
+            }
+
+            .subtitle {
+                font-size: 10pt;
+            }
+
+            .container, .grid-container, .message-box {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            @page {
+                size: A4;
+                margin: 0.3in 0.25in;
+            }
+
+            body, .container {
+                height: auto;
+                page-break-after: avoid;
+                page-break-before: avoid;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <button class="lang-switch" id="langSwitchBtn">中文</button>
+
+    <div class="title-section">
+        <span class="title" id="titleText">Your Life Grid</span>
+        <span class="subtitle" id="subtitleText">1 grid = 1 month · 900 grids = your entire life span</span>
+    </div>
+
+    <div id="gridContainer" class="grid-container"></div>
+
+    <div class="message-box" id="messageBox">
+        <!-- 动态填充内容 -->
+    </div>
+
+    <div class="screen-tools">
+        <button class="screen-btn" id="resetColorsBtn">🧽 Reset all squares</button>
+        <button class="screen-btn" id="fillByBirthdayBtn">📅 Fill by birthday</button>
+        <button class="print-btn" id="printBtn">🖨️ Print this page</button>
+    </div>
+    <div class="footer-note" id="footerNote">
+        💡 Click any square to mark it (grey = lived / important) · Print as A4 — everything fits on one sheet.
+    </div>
+    <div class="author-info" id="authorInfo">
+        Copyright MFn 2026, code by MFn & Deepseek
+    </div>
+
+    <div class="watermark" id="watermarkText">Your Life Grid</div>
+</div>
+
+<script>
+    (function() {
+        // ---------- 多语言文本库（可扩展） ----------
+        const locales = {
+            en: {
+                title: "Your Life Grid",
+                subtitle: "1 grid = 1 month · 900 grids = your entire life span",
+                msgPara1: "🌲 <strong>An average human lifetime is just 900 months.</strong> Each small square here represents one month. A 30×30 grid fits your entire journey on a single sheet of paper.",
+                msgPara2: "🌸 If you are <strong>30 years old</strong>, you have already filled 360 squares; if 20, 240 squares have slipped by.<br>The blank squares are the chapters still unwritten — not many, but enough to change everything.",
+                msgPara3: "🎨 <strong>This sheet whispers to you:</strong> “What color will you give to the squares that remain?”",
+                quote: "✔ Don’t waste months on long‑term unhappiness — 900 squares can’t afford that much friction.<br>✔ Do what matters early. Time with loved ones, chasing a dream, caring for yourself — all need squares to fill.<br>✔ No single square must be perfect, but if this month is truly lived, it will glow.<br>— The squares that have passed will never return. Yet the empty ones are still clean, waiting for your mark.",
+                personalNote: "✨ These squares belong to you. You decide how to paint them — any shade, any meaning. ✨",
+                resetBtn: "🧽 Reset all squares",
+                fillBtn: "📅 Fill by birthday",
+                printBtn: "🖨️ Print this page",
+                footerNote: "💡 Click any square to mark it (grey = lived / important) · Print as A4 — everything fits on one sheet.",
+                authorInfo: "Copyright MFn 2026, code by MFn & Deepseek",
+                watermark: "Your Life Grid",
+                promptBirthday: "Enter your birth date (YYYY-MM-DD):",
+                invalidDate: "Invalid date format. Please use YYYY-MM-DD (e.g., 1995-06-13).",
+                filledMsg: (months) => `Filled ${months} squares based on your birthday.\nRemaining empty squares: ${900 - months}`
+            },
+            zh: {
+                title: "人生格",
+                subtitle: "1 格 = 1 个月 · 900 格 = 你的整个生命跨度",
+                msgPara1: "🌲 <strong>人的平均寿命只有 900 个月。</strong> 每个小格代表一个月，一张 30×30 的方格纸就能装下你的一生。",
+                msgPara2: "🌸 如果你 <strong>30 岁</strong>，你已经涂满了 360 格；如果 20 岁，240 格已悄然流逝。<br>剩下的空白格子，是尚未书写的章节——不算多，却足以改变一切。",
+                msgPara3: "🎨 <strong>这张纸轻声问你：</strong> “剩下的空格，你准备涂上什么颜色？”",
+                quote: "✔ 别把时间浪费在长期不快乐的事上——900 格经不起太多内耗。<br>✔ 重要的事尽早做：陪伴家人、追逐梦想、照顾自己，都需要格子来填。<br>✔ 每个格子不必完美，但只要这个月真正活过，它就会发光。<br>—— 逝去的格子无法重来，但空白的格子依然干净，等你落笔。",
+                personalNote: "✨ 这些格子属于你。你想涂成什么样子、什么颜色，都由你决定。 ✨",
+                resetBtn: "🧽 重置所有格子",
+                fillBtn: "📅 根据生日填充",
+                printBtn: "🖨️ 打印本页",
+                footerNote: "💡 点击任意格子可标记（灰色 = 已度过 / 重要）· 打印为 A4 — 所有内容刚好一页",
+                authorInfo: "版权所有 MFn 2026，代码：MFn & Deepseek",
+                watermark: "人生格",
+                promptBirthday: "请输入你的出生日期 (YYYY-MM-DD)：",
+                invalidDate: "日期格式无效，请使用 YYYY-MM-DD（例如 1995-06-13）。",
+                filledMsg: (months) => `已根据生日填充 ${months} 个格子。\n剩余空白格子：${900 - months}`
+            }
+        };
+
+        let currentLang = 'en';   // 当前语言
+        const langSwitchBtn = document.getElementById('langSwitchBtn');
+
+        // 获取需要更新的元素
+        const titleEl = document.getElementById('titleText');
+        const subtitleEl = document.getElementById('subtitleText');
+        const messageBox = document.getElementById('messageBox');
+        const resetBtn = document.getElementById('resetColorsBtn');
+        const fillBirthdayBtn = document.getElementById('fillByBirthdayBtn');
+        const printBtn = document.getElementById('printBtn');
+        const footerNoteEl = document.getElementById('footerNote');
+        const authorInfoEl = document.getElementById('authorInfo');
+        const watermarkEl = document.getElementById('watermarkText');
+
+        // 更新所有文本
+        function updateUILanguage() {
+            const t = locales[currentLang];
+            titleEl.textContent = t.title;
+            subtitleEl.textContent = t.subtitle;
+            // 重建 message-box 内容
+            messageBox.innerHTML = `
+                <p>${t.msgPara1}</p>
+                <p>${t.msgPara2}</p>
+                <p>${t.msgPara3}</p>
+                <div class="gray-quote">${t.quote}</div>
+                <div class="personal-note">${t.personalNote}</div>
+            `;
+            resetBtn.textContent = t.resetBtn;
+            fillBirthdayBtn.textContent = t.fillBtn;
+            printBtn.textContent = t.printBtn;
+            footerNoteEl.textContent = t.footerNote;
+            authorInfoEl.textContent = t.authorInfo;
+            watermarkEl.textContent = t.watermark;
+            // 切换按钮文字
+            langSwitchBtn.textContent = currentLang === 'en' ? '中文' : 'English';
+        }
+
+        // 切换语言
+        function setLanguage(lang) {
+            if (!locales[lang]) return;
+            currentLang = lang;
+            updateUILanguage();
+            localStorage.setItem('lifeGridLang', lang);
+        }
+
+        function toggleLanguage() {
+            const newLang = currentLang === 'en' ? 'zh' : 'en';
+            setLanguage(newLang);
+        }
+
+        // ---------- 原有核心功能（不变） ----------
+        const TOTAL_MONTHS = 900;
+        const gridContainer = document.getElementById('gridContainer');
+        let cells = [];
+
+        function getMonthsLivedFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            const val = params.get('monthsLived');
+            if (val === null) return -1;
+            const num = parseInt(val, 10);
+            if (isNaN(num)) return -1;
+            return num;
+        }
+
+        function calculateMonthsLived(birthDateObj, today = new Date()) {
+            if (!(birthDateObj instanceof Date) || isNaN(birthDateObj.getTime())) return 0;
+            const birth = new Date(birthDateObj.getFullYear(), birthDateObj.getMonth(), birthDateObj.getDate());
+            const now = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            if (now < birth) return 0;
+            let yearDiff = now.getFullYear() - birth.getFullYear();
+            let monthDiff = now.getMonth() - birth.getMonth();
+            let totalMonths = yearDiff * 12 + monthDiff;
+            if (now.getDate() < birth.getDate()) totalMonths -= 1;
+            if (totalMonths < 0) totalMonths = 0;
+            return Math.min(totalMonths, TOTAL_MONTHS);
+        }
+
+        function parseDateFromInput(dateString) {
+            if (!dateString) return null;
+            const parts = dateString.split('-');
+            if (parts.length !== 3) return null;
+            const year = parseInt(parts[0], 10);
+            const month = parseInt(parts[1], 10) - 1;
+            const day = parseInt(parts[2], 10);
+            if (isNaN(year) || isNaN(month) || isNaN(day)) return null;
+            return new Date(year, month, day);
+        }
+
+        function buildGrid() {
+            gridContainer.innerHTML = '';
+            const fragment = document.createDocumentFragment();
+            for (let i = 0; i < TOTAL_MONTHS; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                cell.setAttribute('data-month', i + 1);
+                cell.title = `Month ${i + 1}`;
+                fragment.appendChild(cell);
+            }
+            gridContainer.appendChild(fragment);
+            cells = Array.from(document.querySelectorAll('.cell'));
+        }
+
+        function fillCells(startIdx, endIdx, addClass = true) {
+            for (let i = startIdx; i < endIdx && i < TOTAL_MONTHS; i++) {
+                if (addClass) cells[i].classList.add('lived');
+                else cells[i].classList.remove('lived');
+            }
+        }
+
+        function resetAllColors() {
+            cells.forEach(cell => cell.classList.remove('lived'));
+        }
+
+        function fillByBirthday() {
+            const t = locales[currentLang];
+            let birthdayStr = prompt(t.promptBirthday, '1990-01-01');
+            if (!birthdayStr) return;
+            const birthDate = parseDateFromInput(birthdayStr);
+            if (!birthDate) {
+                alert(t.invalidDate);
+                return;
+            }
+            const monthsLived = calculateMonthsLived(birthDate);
+            resetAllColors();
+            fillCells(0, monthsLived, true);
+            alert(t.filledMsg(monthsLived));
+        }
+
+        function bindClickToCells() {
+            cells.forEach(cell => {
+                cell.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    cell.classList.toggle('lived');
+                });
+            });
+        }
+
+        function addPrintAnimation() {
+            if (printBtn) {
+                printBtn.addEventListener('click', function(e) {
+                    this.classList.add('print-clicked');
+                    setTimeout(() => this.classList.remove('print-clicked'), 300);
+                    setTimeout(() => window.print(), 50);
+                });
+            }
+        }
+
+        // ---------- 初始化 ----------
+        function init() {
+            buildGrid();
+            bindClickToCells();
+
+            // 读取保存的语言设置
+            const savedLang = localStorage.getItem('lifeGridLang');
+            if (savedLang === 'zh') setLanguage('zh');
+            else if (savedLang === 'en') setLanguage('en');
+            else {
+                // 根据浏览器语言自动选择
+                const browserLang = navigator.language || navigator.userLanguage;
+                if (browserLang.toLowerCase().startsWith('zh')) setLanguage('zh');
+                else setLanguage('en');
+            }
+
+            // URL 参数填充
+            const initialMonths = getMonthsLivedFromURL();
+            if (initialMonths !== -1 && !isNaN(initialMonths) && initialMonths > 0) {
+                const monthsToFill = Math.min(initialMonths, TOTAL_MONTHS);
+                fillCells(0, monthsToFill, true);
+            }
+
+            // 事件绑定
+            const resetBtnEl = document.getElementById('resetColorsBtn');
+            const fillBirthdayBtnEl = document.getElementById('fillByBirthdayBtn');
+            if (resetBtnEl) resetBtnEl.addEventListener('click', resetAllColors);
+            if (fillBirthdayBtnEl) fillBirthdayBtnEl.addEventListener('click', fillByBirthday);
+            addPrintAnimation();
+            langSwitchBtn.addEventListener('click', toggleLanguage);
+        }
+
+        init();
+    })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-hans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Life Grid</title>
+    <style>
+        :root {
+            --grid-line-width: 2px;
+            --grid-line-color: #aaa;
+        }
+
+        .container {
+            /* border: solid 5px #ccc;
+            border-radius: 10px; */
+            margin: 0 10px 10px 10px;
+        }
+
+        /* title section */
+        .title-section {
+            display: block;
+            width: 100%;
+            text-align: center;
+            margin: 0;
+            padding: 0 0 20px 0;
+        }
+
+        span.title {
+            display: block;
+            font-size: 40px;
+        }
+
+        span.subtitle {
+            font-size: 20px;
+        }
+
+        /* Grid */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(30, 1fr);
+            border-top: var(--grid-line-width) solid var(--grid-line-color);
+            border-left: var(--grid-line-width) solid var(--grid-line-color);
+            margin: 10px 10px 25px 10px;
+            background: white;
+        }
+
+        .cell {
+            aspect-ratio: 1 / 1;
+            border-right: var(--grid-line-width) solid var(--grid-line-color);
+            border-bottom: var(--grid-line-width) solid var(--grid-line-color);
+            transition: background 0.1s;
+            background-color: white;
+        }
+
+        .cell:hover {
+            background-color: #e2e4e8;
+        }
+
+        /* Message box */
+
+        .message-box {
+            margin: 0 10px 0 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="title-section">
+            <span class="title">Your Life Grid</span>
+            <span class="subtitle">1 grid 1 month, 900 grid is you entire life.</span>
+        </div>
+
+
+        <div id="gridContainer" class="grid-container"></div>
+
+        <div class="message-box">
+            <p><strong>其实，人生平均下来不过 900 个月。</strong> 如果每个小格是一个月，30x30 的格子足够你记录自己的一生。</p>
+            <p></p>如果你今年<strong>30岁</strong>，已经涂满了360个格子；如果20岁，用掉了240格。<br>
+                那些空白格子，才是余下可以书写故事的地方——不多，但足以让一切不同。</p>
+            <p>🎨 <strong>这张纸在轻声问你：</strong> 接下来的空格，你准备涂上什么颜色？</p>
+            <p class="gray-quote">✔ 别把时间浪费在长期不快乐的事上，900格经不起太多内耗。<br>
+                ✔ 重要的事尽早做——陪伴家人、完成心愿、爱自己，都需要格子去填。<br>
+                ✔ 每个格子无需完美，但这个月如果过得充实，它就会鲜亮一次。</p>
+            <p>—— 逝去的格子无法重来，但剩下的空格依然干净，等你落笔。</p>
+        </div>
+    </div>
+
+    <script>
+        const gridContainer = document.getElementById('gridContainer');
+        const totalMonths = 900;
+
+        function buildGrid() {
+            gridContainer.innerHTML = '';
+            for (i = 0; i < totalMonths; i++) {
+                let cell = document.createElement('div');
+
+                cell.className = 'cell';
+                cell.setAttribute('data-month', i + 1);
+                cell.title = `Month #${i + 1}`;
+
+                gridContainer.appendChild(cell);
+            }
+        }
+
+        buildGrid();
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>900格人生 - A4可打印版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* 打印样式核心 */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+            .no-print {
+                display: none;
+            }
+            .print-container {
+                margin: 0;
+                padding: 0;
+                box-shadow: none;
+            }
+            .grid {
+                border: 1px solid #ddd;
+            }
+            .grid-cell {
+                border-color: #eee;
+            }
+            /* 确保格子正好在一页内 */
+            body, .print-container {
+                height: auto;
+                page-break-after: avoid;
+                page-break-inside: avoid;
+            }
+            /* 强制背景色打印（但格子不涂色，只是边框） */
+            * {
+                -webkit-print-color-adjust: preserve-color-adjust;
+                print-color-adjust: exact;
+            }
+            /* 页边距控制 */
+            @page {
+                size: A4;
+                margin: 1.2cm 1cm;
+            }
+            h1, .intro-text {
+                margin-bottom: 8px;
+            }
+        }
+
+        /* 屏幕样式 */
+        body {
+            background: #e9ecef;
+            font-family: 'Segoe UI', 'Noto Sans', system-ui, -apple-system, 'Microsoft YaHei', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 20px;
+        }
+
+        .print-container {
+            max-width: 1200px;
+            width: 100%;
+            background: white;
+            box-shadow: 0 20px 35px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            padding: 30px 28px 40px 28px;
+            transition: all 0.2s;
+        }
+
+        /* 头部文字 */
+        .header-text {
+            text-align: center;
+            margin-bottom: 28px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 26px;
+            letter-spacing: 1px;
+            color: #2c3e4f;
+            margin-bottom: 10px;
+        }
+
+        .sub {
+            color: #6c757d;
+            font-size: 15px;
+        }
+
+        /* 格子系统 - 30x30 */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(30, 1fr);
+            border-top: 1px solid #ccc;
+            border-left: 1px solid #ccc;
+            margin: 20px 0 25px 0;
+            background: white;
+        }
+
+        .grid-cell {
+            aspect-ratio: 1 / 1; /* 保证正方形 */
+            border-right: 1px solid #e2e4e8;
+            border-bottom: 1px solid #e2e4e8;
+            font-size: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #adb5bd;
+            transition: background 0.1s;
+            background-color: white;
+        }
+
+        /* 可选在屏幕上hover时轻微提醒，但不影响打印 */
+        .grid-cell:hover {
+            background-color: #f8f9fc;
+            cursor: pointer;
+        }
+
+        /* 警示小字 */
+        .legend {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            margin-top: 5px;
+            margin-bottom: 28px;
+            border-top: 1px dashed #e9ecef;
+            padding-top: 12px;
+            font-size: 13px;
+            color: #495057;
+        }
+
+        .month-info {
+            background: #f1f3f5;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-family: monospace;
+        }
+
+        /* 那段触动人心的文案 */
+        .message-box {
+            background: #faf9f8;
+            border-left: 5px solid #bc9a6c;
+            padding: 20px 24px;
+            margin: 20px 0 10px 0;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.6;
+            color: #2c3e2f;
+        }
+
+        .message-box p {
+            margin-bottom: 12px;
+        }
+
+        .message-box .quote {
+            font-style: normal;
+            font-weight: 500;
+        }
+
+        .gray-quote {
+            margin-top: 12px;
+            font-size: 14px;
+            color: #5e6b6f;
+            border-top: 1px solid #e2dcd5;
+            padding-top: 12px;
+        }
+
+        .button-bar {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .print-btn {
+            background: #2c5f2d;
+            color: white;
+            border: none;
+            padding: 12px 32px;
+            font-size: 18px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            transition: 0.2s;
+        }
+
+        .print-btn:hover {
+            background: #1e4220;
+            transform: scale(1.01);
+        }
+
+        footer {
+            margin-top: 24px;
+            text-align: center;
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        @media (max-width: 700px) {
+            .print-container {
+                padding: 18px;
+            }
+            .grid-cell {
+                border-width: 0.5px;
+            }
+            h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="print-container">
+    <div class="header-text">
+        <h1>📅 人生900格 · 一月一格</h1>
+        <div class="sub">30 × 30 = 900个月 · 一张纸即是完整一生</div>
+    </div>
+
+    <!-- 30x30 格子 -->
+    <div class="grid" id="lifeGrid"></div>
+
+    <div class="legend">
+        <span>✨ 每个格子代表一个月</span>
+        <span class="month-info">总格子: 900格 (75岁)</span>
+        <span>🕊️ 已涂色 = 走过的岁月</span>
+    </div>
+
+    <!-- 哲理文案 (你说的那些话) -->
+    <div class="message-box">
+        <p>✧ <strong>你的生命，就握在这张纸里。</strong> 每个小格是一个月，30x30铺满一生的刻度。</p>
+        <p>🌿 如果你今年<strong>30岁</strong>，已经涂满了360个格子；如果20岁，用掉了240格。<br>
+        那些空白格子，才是余下可以书写故事的地方——不多，但足以让一切不同。</p>
+        <p>🎨 <strong>这张纸在轻声问你：</strong> 接下来的空格，你准备涂上什么颜色？</p>
+        <p class="gray-quote">✔ 别把时间浪费在长期不快乐的事上，900格经不起太多内耗。<br>
+        ✔ 重要的事尽早做——陪伴家人、完成心愿、爱自己，都需要格子去填。<br>
+        ✔ 每个格子无需完美，但这个月如果过得充实，它就会鲜亮一次。</p>
+        <p>—— 逝去的格子无法重来，但剩下的空格依然干净，等你落笔。</p>
+    </div>
+    
+    <div class="button-bar no-print">
+        <button class="print-btn" onclick="window.print();">🖨️ 打印这张A4纸 · 保存人生表格</button>
+    </div>
+    <footer class="no-print">💡 提示：打印后可在格子上手动画记当月心情 / 重要节点 / 已经过去的时间。</footer>
+</div>
+
+<script>
+    // 生成 30 x 30 格子，共900格
+    const gridContainer = document.getElementById('lifeGrid');
+    const totalMonths = 900; // 30*30
+    // 为了方便，也可以在此计算当前月份索引(可选)，但打印时默认全是空白，用户可手动涂或标记已经活过的月份。
+    // 为了体验，可以动态计算已活过的月份数，并且默认标记为浅灰色？ 但出于“打印后自己涂”的初衷，这里保持全部白色，
+    // 但你也可以在屏幕上轻轻显示提示：例如hover时显示第几个月。但为了尊重原始理念，不自动填色。
+    // 但增加一个功能：增加“基于当前年龄涂色示例”按钮？ 为了不扰乱打印的纯净，只在屏幕上提供可选涂色功能？
+    // 但打印样式下所有背景都是白的，所以不影响。为了增加互动，可以添加一个可选的控制按钮用来"模拟填涂已过岁月"，但先确保格子干净。
+    
+    // 纯粹生成900个空白格子，且每个格子带有个data-month索引，便于以后扩展。
+    function buildEmptyGrid() {
+        gridContainer.innerHTML = '';
+        for (let i = 0; i < totalMonths; i++) {
+            const cell = document.createElement('div');
+            cell.className = 'grid-cell';
+            // 可选：显示月份序号(小数字，便于打印后标记)，但会显得杂乱，默认不显示序号，保留干净。
+            // 若需显示序号，可取消注释下方:
+            // cell.textContent = i+1;
+            // 为了简约，不显示数字；但是为了便于按月份寻找，可以添加上下文title属性。
+            cell.setAttribute('data-month', i+1);
+            cell.title = `第${i+1}个月`;
+            // 可选点击涂色功能(仅屏幕预览标记，方便用户提前规划哪些格子已过，不影响打印)
+            cell.addEventListener('click', function(e) {
+                // 点击一次切换灰色/白色，模拟涂色（便于在打印前预先标记重要月份或已过去的月份）
+                if (this.style.backgroundColor === 'rgb(222, 226, 230)' || this.style.backgroundColor === '#dee2e6') {
+                    this.style.backgroundColor = '';
+                    this.style.color = '#adb5bd';
+                } else {
+                    this.style.backgroundColor = '#dee2e6';
+                    this.style.color = '#495057';
+                    // 可选让其轻微暗色
+                }
+            });
+            gridContainer.appendChild(cell);
+        }
+    }
+
+    buildEmptyGrid();
+
+    // 附加: 提供一个控制台小技巧，但不用过于复杂。也可以增加一个浮动辅助按钮(不干扰打印)，让用户根据年龄自动涂灰?
+    // 但为了简洁，可以增加一个简单的“按当前年龄涂色”按钮，且仅在屏幕显示，不破坏打印布局，给用户额外便利。
+    // 为了尊重原始纯粹性，但确实很多用户想快速看到自己生命消耗了多少格子，添加辅助工具（no-print类，打印时隐藏）。
+    const buttonBar = document.querySelector('.button-bar');
+    const ageHelperBtn = document.createElement('button');
+    ageHelperBtn.textContent = '📆 根据年龄填涂已过月份 (仅屏幕预览)';
+    ageHelperBtn.style.marginRight = '12px';
+    ageHelperBtn.style.background = '#6c757d';
+    ageHelperBtn.style.color = 'white';
+    ageHelperBtn.style.border = 'none';
+    ageHelperBtn.style.padding = '10px 20px';
+    ageHelperBtn.style.borderRadius = '30px';
+    ageHelperBtn.style.cursor = 'pointer';
+    ageHelperBtn.style.fontSize = '14px';
+    
+    const resetBtn = document.createElement('button');
+    resetBtn.textContent = '🧽 重置所有格子颜色';
+    resetBtn.style.background = '#b5835a';
+    resetBtn.style.color = 'white';
+    resetBtn.style.border = 'none';
+    resetBtn.style.padding = '10px 20px';
+    resetBtn.style.borderRadius = '30px';
+    resetBtn.style.cursor = 'pointer';
+    resetBtn.style.fontSize = '14px';
+    
+    // 辅助功能区域插入在打印按钮之前(不影响打印按钮主要地位)
+    const btnGroup = document.createElement('div');
+    btnGroup.style.marginBottom = '16px';
+    btnGroup.style.display = 'flex';
+    btnGroup.style.gap = '12px';
+    btnGroup.style.justifyContent = 'center';
+    btnGroup.style.flexWrap = 'wrap';
+    btnGroup.appendChild(ageHelperBtn);
+    btnGroup.appendChild(resetBtn);
+    
+    const originalPrintBtn = document.querySelector('.print-btn');
+    buttonBar.insertBefore(btnGroup, originalPrintBtn);
+    
+    // 涂色逻辑: 根据当前年龄计算已活月份数 (年龄 * 12)
+    ageHelperBtn.addEventListener('click', () => {
+        let ageInput = prompt('请输入你的周岁年龄 (例: 28):', '28');
+        if (ageInput === null) return;
+        let age = parseInt(ageInput, 10);
+        if (isNaN(age) || age < 0) {
+            alert('请输入有效年龄 (0~120)');
+            return;
+        }
+        if (age > 120) age = 120;
+        let monthsLived = age * 12;
+        if (monthsLived > totalMonths) monthsLived = totalMonths;
+        const cells = document.querySelectorAll('.grid-cell');
+        for (let i = 0; i < cells.length; i++) {
+            if (i < monthsLived) {
+                cells[i].style.backgroundColor = '#dee2e6';
+                cells[i].style.color = '#6c757d';
+            } else {
+                cells[i].style.backgroundColor = '';
+                cells[i].style.color = '#adb5bd';
+            }
+        }
+        alert(`已根据年龄 ${age} 岁，涂满前 ${monthsLived} 个格子（${age}年的人生）。\n剩余空白格子: ${totalMonths - monthsLived} 个。`);
+    });
+    
+    resetBtn.addEventListener('click', () => {
+        const cells = document.querySelectorAll('.grid-cell');
+        cells.forEach(cell => {
+            cell.style.backgroundColor = '';
+            cell.style.color = '#adb5bd';
+        });
+    });
+    
+    // 可选: 在页面添加一个小提示告知可以点击涂格子 (no-print)
+    const tipSpan = document.createElement('div');
+    tipSpan.className = 'no-print';
+    tipSpan.style.fontSize = '12px';
+    tipSpan.style.textAlign = 'center';
+    tipSpan.style.marginTop = '8px';
+    tipSpan.style.color = '#b9a089';
+    tipSpan.innerText = '⭐ 鼠标点击任意格子可临时涂色(便于打印前规划) · 也可使用上方按钮自动填涂已活月份';
+    buttonBar.parentNode.insertBefore(tipSpan, buttonBar.nextSibling);
+    
+</script>
+</body>
+</html>

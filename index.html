@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Life Grid · Start</title>
+    <meta name="description" content="One sheet of paper, 900 squares: a simple reminder that a life is about 900 months. Enter your birthday and see how much of your grid is already filled.">
+    <meta name="theme-color" content="#f5f7fb">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+<div class="container" id="appContainer">
+    <button class="icon-btn lang-switch" id="langSwitchBtn" type="button"
+            aria-label="Language / 语言" aria-haspopup="menu" aria-expanded="false">🌐</button>
+    <div id="langMenu" class="lang-menu" role="menu" aria-label="Language" hidden>
+        <button type="button" role="menuitemradio" data-lang="en" aria-checked="true">English</button>
+        <button type="button" role="menuitemradio" data-lang="zh" aria-checked="false">中文</button>
+    </div>
+    <div class="title-section">
+        <span class="title" id="titleText">Could you please tell me your birthday?</span>
+        <div class="sub-note" id="subNoteText">· One sheet of paper, 900 squares ·</div>
+    </div>
+    <div class="input-section">
+        <label class="sr-only" for="birthDate" id="birthDateLabel">Your birthday</label>
+        <input class="date-input" id="birthDate" type="date" value="1995-06-13" autocomplete="bday">
+        <div class="button-group">
+            <input class="btn btn-primary" id="submitBtn" type="button" value="See my grid →">
+            <input class="btn btn-secondary" id="skipBtn" type="button" value="No, thanks.">
+        </div>
+    </div>
+    <div class="divider-light"></div>
+</div>
+<script src="js/common.js"></script>
+<script src="js/index.js"></script>
+</body>
+</html>

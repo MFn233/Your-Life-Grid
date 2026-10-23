@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Your Life Grid · 900 Months</title>
+    <meta name="description" content="900 squares, one per month, on a single sheet of paper. Mark the months you have lived, print the grid, and decide what colour the blank squares deserve.">
+    <meta name="theme-color" content="#f5f7fb">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/grid.css">
+</head>
+<body>
+<div class="container">
+    <button class="icon-btn lang-switch" id="langSwitchBtn" type="button"
+            aria-label="Language / 语言" aria-haspopup="menu" aria-expanded="false">🌐</button>
+    <div id="langMenu" class="lang-menu" role="menu" aria-label="Language" hidden>
+        <button type="button" role="menuitemradio" data-lang="en" aria-checked="true">English</button>
+        <button type="button" role="menuitemradio" data-lang="zh" aria-checked="false">中文</button>
+    </div>
+    <div class="title-section">
+        <span class="title" id="titleText">Your Life Grid</span>
+        <span class="subtitle" id="subtitleText">1 grid = 1 month · 900 grids = your entire life span</span>
+    </div>
+    <div id="gridContainer" class="grid-container" role="group" aria-label="Your life grid"></div>
+    <div class="message-box" id="messageBox"></div>
+    <div class="screen-tools">
+        <button class="screen-btn" id="resetColorsBtn" type="button">🧽 Reset all squares</button>
+        <button class="screen-btn" id="fillByBirthdayBtn" type="button" aria-expanded="false" aria-controls="fillPanel">📅 Fill by birthday</button>
+        <button class="print-btn" id="printBtn" type="button">🖨️ Print this page</button>
+    </div>
+    <div class="fill-panel" id="fillPanel" hidden>
+        <label class="sr-only" for="fillBirthDate" id="fillBirthdayLabel">Your birthday</label>
+        <input class="fill-input" id="fillBirthDate" type="date" autocomplete="bday">
+        <button class="screen-btn" id="fillConfirmBtn" type="button">Fill</button>
+        <button class="screen-btn" id="fillCancelBtn" type="button">Cancel</button>
+    </div>
+    <p class="sr-only" id="statusRegion" role="status" aria-live="polite"></p>
+    <div class="footer-note" id="footerNote">💡 Click any square to mark it (grey = lived / important) · Print as A4 — everything fits on one sheet.</div>
+    <div class="author-info" id="authorInfo">Copyright MFn 2026, code by MFn & Deepseek</div>
+    <div class="watermark" id="watermarkText">Your Life Grid</div>
+</div>
+<script src="js/common.js"></script>
+<script src="js/grid.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+# OS / editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# logs
+*.log
+
+# dependencies (if build tooling is added later)
+node_modules/

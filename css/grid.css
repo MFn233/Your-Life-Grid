@@ -1,0 +1,277 @@
+* {
+    --cell-border-color: #b9c2ca;
+}
+
+.title-section {
+    text-align: center;
+    margin-bottom: 24px;
+    margin-top: 8px;
+}
+.title {
+    display: block;
+    font-size: 2.2rem;
+    font-weight: 500;
+    letter-spacing: -0.3px;
+    color: #1e2f3a;
+}
+.subtitle {
+    font-size: 1rem;
+    color: #6b7c8a;
+    margin-top: 6px;
+    display: block;
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(30, 1fr);
+    border-top: 1px solid var(--cell-border-color);
+    border-left: 1px solid var(--cell-border-color);
+    margin: 16px 0 20px 0;
+    background: white;
+}
+.cell {
+    aspect-ratio: 1 / 1;
+    border: 0;
+    border-right: 1px solid var(--cell-border-color);
+    border-bottom: 1px solid var(--cell-border-color);
+    transition: background 0.1s ease, transform 0.1s ease;
+    background-color: white;
+    cursor: pointer;
+    /* Cells are <button> elements so they are focusable and announced. */
+    appearance: none;
+    -webkit-appearance: none;
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
+    font: inherit;
+    color: inherit;
+    position: relative;
+}
+.cell.lived {
+    background-color: #d9e0e5;
+}
+.cell:hover {
+    background-color: #eef2f5;
+    transform: scale(0.98);
+}
+.cell:focus {
+    outline: none;
+}
+.cell:focus-visible {
+    outline: 2px solid #2c5f6e;
+    outline-offset: -2px;
+    z-index: 2;
+    background-color: #eef2f5;
+}
+
+/* Square cells on browsers without aspect-ratio (Safari < 15, Chrome < 88). */
+@supports not (aspect-ratio: 1 / 1) {
+    .cell::before {
+        content: "";
+        display: block;
+        padding-top: 100%;
+    }
+}
+.message-box {
+    margin-top: 8px;
+    line-height: 1.55;
+    color: #2c3e40;
+    font-size: 0.95rem;
+}
+.message-box p {
+    margin-bottom: 12px;
+}
+.message-box strong {
+    color: #2c5f6e;
+}
+.gray-quote {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #e2e8ed;
+    font-size: 0.9rem;
+    color: #5c6e7a;
+}
+.personal-note {
+    margin-top: 12px;
+    font-style: italic;
+    background: #fef9e6;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: #a0763c;
+    text-align: center;
+}
+.footer-note {
+    text-align: center;
+    font-size: 0.7rem;
+    color: #9aaeb9;
+    margin-top: 20px;
+    border-top: 1px solid #eef2f5;
+    padding-top: 12px;
+}
+.author-info {
+    text-align: center;
+    font-size: 0.7rem;
+    color: #b9c3cc;
+    margin-top: 8px;
+    letter-spacing: 0.5px;
+}
+.watermark {
+    display: none;
+}
+.screen-tools {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+.screen-btn {
+    background: #eef2f5;
+    border: none;
+    padding: 6px 18px;
+    border-radius: 60px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    color: #2c5f6e;
+    font-weight: 500;
+    transition: 0.2s;
+}
+.screen-btn:hover {
+    background: #e2e8ed;
+    transform: translateY(-1px);
+}
+.print-btn {
+    background: #2c5f6e;
+    color: white;
+    border: none;
+    padding: 8px 24px;
+    border-radius: 60px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.print-btn:hover {
+    background: #1e4652;
+    transform: translateY(-1px);
+}
+.print-clicked {
+    animation: pulse 0.3s ease-in-out;
+}
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); background-color: #1e4652; }
+    100% { transform: scale(1); }
+}
+
+/* Inline birthday panel (replaces window.prompt) */
+.fill-panel {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 14px;
+}
+.fill-input {
+    font-family: inherit;
+    font-size: 0.85rem;
+    color: #1e2f3d;
+    background: #fff;
+    border: 1px solid #dce3e9;
+    border-radius: 60px;
+    padding: 0.45rem 1rem;
+    outline: none;
+    transition: 0.2s;
+}
+.fill-input:focus-visible {
+    border-color: #9aaebf;
+    box-shadow: 0 0 0 2px rgba(90, 120, 140, 0.15);
+}
+
+/* 打印样式 */
+@media print {
+    body {
+        background: white !important;
+        padding: 0;
+        margin: 0;
+    }
+    .container {
+        max-width: 100%;
+        margin: 0;
+        padding: 0.2in 0.15in 0.1in 0.15in;
+        box-shadow: none;
+        border-radius: 0;
+        animation: none;
+        background: white !important;
+    }
+    .screen-tools, .fill-panel, .footer-note, .author-info {
+        display: none;
+    }
+    .watermark {
+        display: block;
+        position: absolute;
+        bottom: 8px;
+        right: 12px;
+        font-size: 11px;
+        color: rgba(100, 100, 120, 0.2);
+        font-family: monospace;
+        transform: rotate(-12deg);
+        pointer-events: none;
+        white-space: nowrap;
+    }
+    .title-section {
+        margin-bottom: 16px !important;
+    }
+    .title {
+        font-size: 20pt;
+    }
+    .subtitle {
+        font-size: 10pt;
+    }
+    .grid-container {
+        border-left: 1px solid #aaa;
+        border-top: 1px solid #aaa;
+        margin: 8px 0 12px 0;
+    }
+    .cell {
+        border-right: 1px solid #aaa;
+        border-bottom: 1px solid #aaa;
+    }
+    .cell:focus-visible {
+        outline: none;
+    }
+    .cell.lived {
+        background-color: #d9e0e5 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    .message-box {
+        font-size: 9.5pt;
+        line-height: 1.4;
+        margin-top: 4px;
+    }
+    .message-box p {
+        margin-bottom: 6px;
+    }
+    .gray-quote {
+        font-size: 9pt;
+        margin-top: 4px;
+        padding-top: 4px;
+    }
+    .personal-note {
+        font-size: 9pt;
+        background: none;
+        padding: 4px 0;
+        border: none;
+        color: #555;
+    }
+    .container, .grid-container, .message-box {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+    @page {
+        size: A4;
+        margin: 0.3in 0.25in;
+    }
+}
